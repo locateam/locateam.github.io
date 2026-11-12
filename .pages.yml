@@ -1,0 +1,65 @@
+media:
+  input: public/assets/uploads
+  output: /assets/uploads
+content:
+  - name: blog
+    label: Блог
+    type: collection
+    path: public/news
+    format: json
+    filename: '{fields.slug}.json'
+    view:
+      primary: title
+      fields: [title, date, category]
+      sort: [date]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: slug
+        label: Адрес статьи
+        type: string
+        required: true
+        description: 'Латинские буквы, цифры и дефисы. Например: our-first-project. После публикации адрес лучше не менять.'
+        pattern: '^(?!page$|index$)[a-z0-9]+(-[a-z0-9]+)*$'
+      - { name: title, label: Заголовок, type: string, required: true }
+      - name: date
+        label: Дата публикации
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+          time: false
+      - { name: category, label: Рубрика, type: string, required: true, default: Команда }
+      - { name: description, label: Краткое описание, type: text, required: true }
+      - name: body
+        label: Текст статьи
+        type: text
+        required: true
+        description: 'Пишите обычный текст. Разделяйте абзацы переносом строки.'
+  - name: projects
+    label: Проекты
+    type: collection
+    path: public/projects
+    exclude: ['.gitkeep']
+    format: json
+    filename: '{fields.slug}.json'
+    view:
+      primary: title
+      fields: [title, visible, order]
+    fields:
+      - name: slug
+        label: Адрес проекта
+        type: string
+        required: true
+        pattern: '^[a-z0-9]+(-[a-z0-9]+)*$'
+        description: 'Латинские буквы, цифры и дефисы. Например: loka-tools.'
+      - { name: title, label: Название, type: string, required: true }
+      - { name: description, label: Описание, type: text, required: true }
+      - name: url
+        label: Ссылка на проект
+        type: string
+        required: true
+        pattern: '^https://[^\s]+$'
+      - { name: visible, label: Показывать на главной, type: boolean, default: false }
+      - { name: order, label: Порядок на главной, type: number, default: 0 }

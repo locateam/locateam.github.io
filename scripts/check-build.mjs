@@ -18,9 +18,14 @@ for(const url of urls){
     const info=await stat(resolve('dist','.'+target));assert.ok(info.isFile()||info.isDirectory(),target);
   }
 }
-const article=await readFile('dist/blog/hello-loka/index.html','utf8');
-assert.ok(article.includes('Это Лока'));
-assert.ok(article.includes('BlogPosting'));
+const escape=value=>String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#x27;');
+for(const file of (await readdir('public/news')).filter(file=>file.endsWith('.json'))){
+  const post=JSON.parse(await readFile(`public/news/${file}`,'utf8'));
+  const article=await readFile(`dist/blog/${post.slug}/index.html`,'utf8');
+  assert.ok(article.includes(escape(post.title)),`Missing title for ${post.slug}`);
+  for(const paragraph of post.body.split(/\r?\n/).filter(Boolean))assert.ok(article.includes(escape(paragraph)),`Missing paragraph for ${post.slug}`);
+  assert.ok(article.includes('BlogPosting'));
+}
 assert.match(await readFile('dist/admin/index.html','utf8'),/noindex,nofollow/);
 assert.match(await readFile('dist/robots.txt','utf8'),/Disallow: \/admin\//);
 assert.ok((await readdir('dist')).includes('.nojekyll'));

@@ -5,7 +5,7 @@ import React from 'react';
 import {renderToString} from 'react-dom/server';
 import {blogUrl,postUrl,siteOrigin} from '../src/routes.js';
 const escape=value=>String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
-const server=await createServer({server:{middlewareMode:true},appType:'custom'});
+const server=await createServer({server:{middlewareMode:true,hmr:false},appType:'custom'});
 try{
   const {default:App,posts}=await server.ssrLoadModule('/src/app.jsx');
   const template=await readFile('dist/index.html','utf8');

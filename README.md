@@ -17,9 +17,11 @@ Canonical origin: `https://locateam.github.io`, configured in `src/routes.js` an
 
 ## Editorial access
 
-`/admin/` uses Decap CMS. It requires a configured GitHub OAuth proxy: set `backend.base_url` and `backend.auth_endpoint` in `public/admin/config.yml` and register the proxy callback in a GitHub OAuth app. Keep secrets only in the proxy environment. Editors need push access to the repository. Authentication is not connected yet.
+`/admin/` links to the hosted Pages CMS GUI at https://app.pagescms.org/. Its forms are defined in `.pages.yml`. No custom OAuth app or auth server is required. The owner must sign in and install the Pages CMS GitHub App with access only to `locateam/locateam.github.io`; this permission has not been granted by the coding agent.
 
-Projects are JSON in `public/projects`; the editor supports title, description, HTTPS URL, display order and visibility on the homepage. Blog posts are JSON in `public/news`; the editor supports title, date, category, description and plain text paragraphs. Publishing commits content and triggers the Pages build. Post slugs must be unique lowercase Latin words/numbers separated by hyphens; `page` and `index` are reserved. The initial welcome article is sample content. Confirm the Hugging Face profile before launch.
+Projects are JSON in `public/projects`; the editor supports title, description, HTTPS URL, display order and visibility on the homepage. Blog posts are JSON in `public/news`; the editor supports title, date, category, description and plain text paragraphs. Saving commits content and triggers the Pages build. Select the `main` branch in the editor. Post slugs must be unique lowercase Latin words/numbers separated by hyphens; `page` and `index` are reserved. The initial welcome article is sample content. Confirm the Hugging Face profile before launch.
+
+This is a third-party hosted editor with read/write access to the selected repository. Use GitHub App installation settings to revoke access. Repository files (including hidden projects) remain public. `public/admin/config.yml` is the previous Decap schema, retained only as a migration reference; the admin page no longer loads Decap.
 
 ## Design
 
