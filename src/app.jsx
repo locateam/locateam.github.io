@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react';
-import {ArrowUpRight,ArrowDown,ArrowLeft} from '@phosphor-icons/react';
+import {ArrowUpRight,ArrowDown,ArrowLeft,TelegramLogo} from '@phosphor-icons/react';
 import Lenis from 'lenis';
 import {Button} from './components/ui/button';
 import {blogUrl as baseBlogUrl,postUrl as basePostUrl,routeParams,siteOrigin} from './routes.js';
@@ -39,7 +39,7 @@ export default function App({pathname='/'}){
   return <><div className="cursor" aria-hidden="true"/><div className="cursor-dot" aria-hidden="true"/>
     <header><a className="brand" href={home} aria-label={`locaTeam — ${t.home}`}><img src="/assets/loka.png" alt=""/>locaTeam</a>
       <nav aria-label={language==='en'?'Main navigation':'Основная навигация'}><a href={`${home}#projects`}>{t.projects}</a><a href={blogUrl()}>{t.blog}</a></nav>
-      <div className="social"><a href="https://github.com/locateam" aria-label="GitHub"><img src="/assets/github.svg" alt="" width="24"/></a><a href="https://huggingface.co/locateam" aria-label="Hugging Face"><img src="/assets/huggingface.svg" alt="" width="24"/></a></div>
+      <div className="social"><a href="https://github.com/locateam" aria-label="GitHub"><img src="/assets/github.svg" alt="" width="24"/></a><a href="https://huggingface.co/locateam" aria-label="Hugging Face"><img src="/assets/huggingface.svg" alt="" width="24"/></a><a href="https://t.me/locateam" aria-label="Telegram"><TelegramLogo size={24}/></a></div>
       <div className="language-switch" aria-label={language==='en'?'Language':'Язык'}>{['ru','en'].map(lang=><a key={lang} href={articleLanguageUrl(pathname,lang,posts)} lang={lang} hrefLang={lang} aria-current={lang===language?'true':undefined}>{lang.toUpperCase()}</a>)}</div>
     </header>
     <main>{article?<article className="article"><Button asChild variant="outline"><a href={blogUrl(listing.page)}><ArrowLeft/>{t.allArticles}</a></Button><p className="eyebrow">{article.date} / {article.category}</p><h1>{article.title}</h1><p className="lead">{article.description}</p><div className="prose" dangerouslySetInnerHTML={{__html:article.html}}/></article>
@@ -52,5 +52,5 @@ export default function App({pathname='/'}){
     <section id="projects"><div className="section-heading"><span className="eyebrow">01 / {t.projects}</span><h2>{t.projects}</h2><p>{t.code}</p></div><div className="projects">{languageProjects.map(p=><a key={p.slug} className="project" href={p.url}><ArrowUpRight size={24}/><h3>{p.title}</h3><p>{p.description}</p></a>)}{languageProjects.length===0&&<p>{t.soon}</p>}</div></section>
     <section id="blog"><div className="section-heading"><span className="eyebrow">02 / {t.blog}</span><h2>{t.blog}</h2><p>{t.notes}</p></div>{languagePosts.slice(0,3).map(p=><PostRow key={p.slug} post={p} href={postUrl(p.slug)}/>)}{languagePosts.length===0&&<p>{t.empty}</p>}<Button asChild variant="outline"><a href={blogUrl()}>{t.allPosts}<ArrowUpRight size={20}/></a></Button></section>
     <section className="outro"><img src="/assets/loka.png" alt={language==='en'?'Loka':'Лока'}/><h2>{t.together}</h2><Button asChild variant="outline"><a href="https://github.com/locateam">{t.github}<ArrowUpRight/></a></Button></section></>}</main>
-    <footer><a className="brand" href={home}>locaTeam</a><span>© {new Date().getFullYear()} locaTeam</span><span>{t.team}</span><a href="/admin/">{t.editor}<ArrowUpRight/></a></footer></>;
+    <footer><a className="brand" href={home}>locaTeam</a><span>© {new Date().getFullYear()} locaTeam</span><span>{t.team}</span><a className="telegram-link" href="https://t.me/locateam"><TelegramLogo size={18}/>Telegram</a><a href="/admin/">{t.editor}<ArrowUpRight/></a></footer></>;
 }

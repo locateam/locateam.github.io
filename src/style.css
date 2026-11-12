@@ -75,3 +75,5 @@ footer{border-top:1px solid var(--line)}
 .language-switch{display:flex;gap:8px;flex-shrink:0;font-size:13px}.language-switch a{padding:8px 4px;color:#555}.language-switch a[aria-current]{color:var(--black);text-decoration:underline;text-underline-offset:5px}
 header{gap:clamp(16px,3vw,40px)}
 @media(max-width:700px){header{gap:12px}header>nav{order:3;flex-basis:100%;justify-content:center;margin-left:0}.social{margin-left:auto;padding-left:0;gap:12px}.brand{font-size:22px}.brand img{width:24px}.language-switch{gap:4px}.language-switch a{padding-inline:2px}.prose h2{font-size:28px}.prose h3{font-size:24px}}
+.social a,.telegram-link{display:inline-flex;align-items:center;gap:6px}
+@media(max-width:480px){header{gap:8px}.brand{font-size:20px;gap:6px}.brand img{width:20px}.social{gap:10px}.social img,.social svg{width:20px;height:20px}.language-switch{font-size:12px}}
