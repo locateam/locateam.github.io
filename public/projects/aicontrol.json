@@ -4,5 +4,10 @@
   "description": "ИИ скилл, которые позволяет работать агенту по строго заданному сценарию, как настоящий  разработчик: от продумывания архитектуры и тестирования каждого модуля, до выбора библиотек и постепенное модульное написано софта.",
   "url": "https://github.com/locateam/aicontol",
   "visible": true,
-  "order": 0
+  "order": 0,
+  "en": {
+    "enabled": true,
+    "title": "AIControl | All In Control",
+    "description": "AI skills that allow the agent to work according to a strictly specified scenario, like a real developer: from thinking through the architecture and testing each module, to the selection of libraries and gradual modular writing of the software."
+  }
 }
