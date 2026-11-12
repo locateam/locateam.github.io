@@ -1,0 +1,38 @@
+backend:
+  name: github
+  repo: locateam/locateam.github.io
+  branch: main
+  # Configure base_url and auth_endpoint for your GitHub OAuth proxy before signing in.
+media_folder: public/assets/uploads
+public_folder: /assets/uploads
+locale: ru
+collections:
+  - name: blog
+    label: Блог
+    folder: public/news
+    create: true
+    extension: json
+    format: json
+    slug: '{{slug}}'
+    fields:
+      - { label: Адрес, name: slug, widget: string, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Строчные латинские буквы, цифры и дефисы'] }
+      - { label: Заголовок, name: title, widget: string }
+      - { label: Дата, name: date, widget: datetime, format: 'YYYY-MM-DD', time_format: false }
+      - { label: Рубрика, name: category, widget: string }
+      - { label: Описание, name: description, widget: text }
+      - { label: Текст, name: body, widget: text }
+
+  - name: projects
+    label: Проекты
+    folder: public/projects
+    create: true
+    extension: json
+    format: json
+    slug: '{{slug}}'
+    fields:
+      - { label: Адрес, name: slug, widget: string, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Строчные латинские буквы, цифры и дефисы'] }
+      - { label: Название, name: title, widget: string }
+      - { label: Описание, name: description, widget: text }
+      - { label: Ссылка HTTPS, name: url, widget: string, pattern: ['^https://', 'Нужна ссылка HTTPS'] }
+      - { label: Показывать на главной, name: visible, widget: boolean, default: false }
+      - { label: Порядок, name: order, widget: number, default: 0, value_type: int }
