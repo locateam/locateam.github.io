@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {projectsFor} from './projects.js';
+const russian={slug:'loka',title:'Лока',description:'Описание',url:'https://example.com',visible:true,order:2};
+assert.equal(projectsFor([russian],'ru')[0],russian);
+assert.deepEqual(projectsFor([russian],'en'),[]);
+const translated={...russian,en:{enabled:true,title:'Loka',description:'Description'}};
+const english=projectsFor([translated],'en')[0];
+assert.equal(english.title,'Loka');assert.equal(english.description,'Description');
+for(const key of ['slug','url','order','visible'])assert.equal(english[key],russian[key]);
+assert.equal(translated.title,'Лока');
+assert.deepEqual(projectsFor([{...translated,visible:false}],'en'),[]);
+assert.deepEqual(projectsFor([{...translated,url:'javascript:alert(1)'}],'en'),[]);
+assert.deepEqual(projectsFor([{...russian,en:{enabled:false,title:''}}],'en'),[]);
+assert.throws(()=>projectsFor([{...translated,en:{...translated.en,title:''}}],'en'),/fill title/);
+assert.throws(()=>projectsFor([{...translated,en:{...translated.en,description:' '}}],'en'),/fill description/);
+assert.deepEqual(projectsFor([translated,{...translated,slug:'first',order:1}],'en').map(p=>p.slug),['first','loka']);
+console.log('Project translations, visibility and ordering verified');

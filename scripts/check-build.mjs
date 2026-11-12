@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {readFile,readdir,stat,access} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {contentFiles} from './content-files.mjs';
+import {projectsFor} from '../src/projects.js';
 import {renderMarkdown} from '../src/markdown.js';
 const origin='https://locateam.github.io';
 const sitemap=await readFile('dist/sitemap.xml','utf8');
@@ -40,6 +41,14 @@ for(const file of await contentFiles('public/news')){
     assert.ok(!article.includes('hreflang="en"'));
   }
   assert.ok(article.includes('BlogPosting'));
+}
+const projects=await Promise.all((await contentFiles('public/projects')).map(async file=>JSON.parse(await readFile(`public/projects/${file}`,'utf8'))));
+for(const language of ['ru','en']){
+  const home=await readFile(language==='ru'?'dist/index.html':'dist/en/index.html','utf8');
+  for(const project of projectsFor(projects,language)){
+    assert.ok(home.includes(`<h3>${escape(project.title)}</h3>`),`Missing ${language} project title: ${project.slug}`);
+    assert.ok(home.includes(`<p>${escape(project.description)}</p>`),`Missing ${language} project description: ${project.slug}`);
+  }
 }
 assert.match(await readFile('dist/en/index.html','utf8'),/<html lang="en">/);
 assert.match(await readFile('dist/en/blog/index.html','utf8'),/All posts/);

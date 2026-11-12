@@ -4,18 +4,19 @@ import Lenis from 'lenis';
 import {Button} from './components/ui/button';
 import {blogUrl as baseBlogUrl,postUrl as basePostUrl,routeParams,siteOrigin} from './routes.js';
 import {messages,languageFor,localPath} from './i18n.js';
+import {projectsFor} from './projects.js';
 import {articlesFor,articleLanguageUrl} from './articles.js';
 import {HeroQuote} from './components/hero-quote';
 import {paginate} from './paginate.js';
 import {Pagination,PaginationContent,PaginationItem,PaginationLink,PaginationPrevious,PaginationNext,PaginationEllipsis} from './components/ui/pagination';
 export const posts=Object.values(import.meta.glob('/public/news/*.json',{eager:true,import:'default'})).sort((a,b)=>b.date.localeCompare(a.date));
-const projects=Object.values(import.meta.glob('/public/projects/*.json',{eager:true,import:'default'})).filter(p=>p.visible&&/^https:\/\//.test(p.url)).sort((a,b)=>(a.order??0)-(b.order??0));
+const projects=Object.values(import.meta.glob('/public/projects/*.json',{eager:true,import:'default'}));
 function PostRow({post,href}){return <a className="news-row" href={href}><time dateTime={post.date}>{post.date}</time><div><small>{post.category}</small><h3>{post.title}</h3><p>{post.description}</p></div><ArrowUpRight size={24}/></a>}
 export default function App({pathname='/'}){
   const language=languageFor(pathname),t=messages[language];
   const home=localPath('/',language),blogUrl=page=>localPath(baseBlogUrl(page),language),postUrl=slug=>localPath(basePostUrl(slug),language);
   const params=routeParams(pathname),isBlog=params.has('blog');
-  const languagePosts=articlesFor(posts,language);
+  const languagePosts=articlesFor(posts,language),languageProjects=projectsFor(projects,language);
   const listing=paginate(languagePosts,params.get('page')??1),article=languagePosts.find(p=>p.slug===params.get('post'))??null;
   const title=article?`${article.title} — locaTeam`:isBlog?`${t.blog} locaTeam${listing.page>1?` — ${t.page} ${listing.page}`:''}`:t.siteTitle;
   const description=article?.description??t.description;
@@ -48,7 +49,7 @@ export default function App({pathname='/'}){
       {Array.from({length:listing.totalPages},(_,i)=>i+1).filter(n=>n===1||n===listing.totalPages||Math.abs(n-listing.page)<=1).map((n,i,a)=><React.Fragment key={n}>{i>0&&n-a[i-1]>1&&<PaginationItem><PaginationEllipsis text={t.more}/></PaginationItem>}<PaginationItem><PaginationLink href={blogUrl(n)} isActive={n===listing.page} aria-label={`${t.page} ${n}`}>{n}</PaginationLink></PaginationItem></React.Fragment>)}
       <PaginationItem><PaginationNext text={t.forward} aria-label={t.next} disabled={listing.page===listing.totalPages} href={listing.page<listing.totalPages?blogUrl(listing.page+1):undefined}/></PaginationItem></PaginationContent></Pagination>
     </section>:<><section className="hero"><HeroQuote language={language}/><div className="hero-bottom"><Button asChild><a href="#projects">{t.explore}<ArrowUpRight size={20}/></a></Button><a className="scroll" href="#projects" aria-label={t.scroll}><ArrowDown size={23}/></a></div></section>
-    <section id="projects"><div className="section-heading"><span className="eyebrow">01 / {t.projects}</span><h2>{t.projects}</h2><p>{t.code}</p></div><div className="projects">{projects.map(p=><a key={p.slug} className="project" href={p.url}><ArrowUpRight size={24}/><h3>{p.title}</h3><p>{p.description}</p></a>)}{projects.length===0&&<p>{t.soon}</p>}</div></section>
+    <section id="projects"><div className="section-heading"><span className="eyebrow">01 / {t.projects}</span><h2>{t.projects}</h2><p>{t.code}</p></div><div className="projects">{languageProjects.map(p=><a key={p.slug} className="project" href={p.url}><ArrowUpRight size={24}/><h3>{p.title}</h3><p>{p.description}</p></a>)}{languageProjects.length===0&&<p>{t.soon}</p>}</div></section>
     <section id="blog"><div className="section-heading"><span className="eyebrow">02 / {t.blog}</span><h2>{t.blog}</h2><p>{t.notes}</p></div>{languagePosts.slice(0,3).map(p=><PostRow key={p.slug} post={p} href={postUrl(p.slug)}/>)}{languagePosts.length===0&&<p>{t.empty}</p>}<Button asChild variant="outline"><a href={blogUrl()}>{t.allPosts}<ArrowUpRight size={20}/></a></Button></section>
     <section className="outro"><img src="/assets/loka.png" alt={language==='en'?'Loka':'Лока'}/><h2>{t.together}</h2><Button asChild variant="outline"><a href="https://github.com/locateam">{t.github}<ArrowUpRight/></a></Button></section></>}</main>
     <footer><a className="brand" href={home}>locaTeam</a><span>© {new Date().getFullYear()} locaTeam</span><span>{t.team}</span><a href="/admin/">{t.editor}<ArrowUpRight/></a></footer></>;

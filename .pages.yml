@@ -81,3 +81,11 @@ content:
         pattern: '^https://[^\s]+$'
       - { name: visible, label: Показывать на главной, type: boolean, default: false }
       - { name: order, label: Порядок на главной, type: number, default: 0 }
+      - name: en
+        label: Английская версия (ручной перевод)
+        type: object
+        description: 'Заполните название и описание, затем включите английскую версию. Ссылка, порядок и переключатель показа на главной общие для обоих языков.'
+        fields:
+          - { name: enabled, label: Опубликовать английскую версию, type: boolean, default: false }
+          - { name: title, label: English title, type: string }
+          - { name: description, label: English description, type: text }

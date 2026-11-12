@@ -6,7 +6,7 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build && node scripts/prerender.mjs",
     "preview": "vite preview",
-    "test": "node src/paginate.test.js && node src/text-bend.test.js && node src/routes.test.js && node src/markdown.test.js && node scripts/content-files.test.mjs && node src/i18n.test.js && node src/articles.test.js"
+    "test": "node src/paginate.test.js && node src/text-bend.test.js && node src/routes.test.js && node src/markdown.test.js && node scripts/content-files.test.mjs && node src/i18n.test.js && node src/articles.test.js && node src/projects.test.js"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
