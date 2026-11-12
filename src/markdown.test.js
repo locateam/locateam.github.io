@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {renderMarkdown} from './markdown.js';
+const html=renderMarkdown('# Heading\n\n**bold** and *italic*\n\n- item\n\n> quote\n\n```js\nconst x = 1;\n```\n\n[a](https://example.com)\n\n![alt](/assets/loka.png)');
+for(const tag of ['<h2>Heading</h2>','<strong>bold</strong>','<em>italic</em>','<ul>','<blockquote>','<pre>','href="https://example.com"','src="/assets/loka.png"'])assert.ok(html.includes(tag),tag);
+assert.ok(!renderMarkdown('[x](javascript:alert(1))').includes('href='));
+assert.ok(!renderMarkdown('[x](javascript&#58;alert(1))').includes('href='));
+assert.ok(!renderMarkdown('![x](data:text/html,bad)').includes('src='));
+assert.ok(!renderMarkdown('<script>alert(1)</script><img src=x onerror=alert(1)>').includes('<script>'));
+assert.ok(renderMarkdown('first\nsecond').includes('<br'));
+assert.ok(!renderMarkdown('# Heading').includes('<h1>'));
+console.log('Markdown formatting and safety checks passed');

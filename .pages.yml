@@ -33,10 +33,28 @@ content:
       - { name: category, label: Рубрика, type: string, required: true, default: Команда }
       - { name: description, label: Краткое описание, type: text, required: true }
       - name: body
-        label: Текст статьи
-        type: text
+        label: Текст статьи (Markdown)
+        type: rich-text
         required: true
-        description: 'Пишите обычный текст. Разделяйте абзацы переносом строки.'
+        description: 'Форматируйте текст кнопками или откройте Source для Markdown.'
+        options:
+          format: markdown
+          switcher: true
+      - name: en
+        label: Английская версия (ручной перевод)
+        type: object
+        description: 'Заполните заголовок, описание и текст, затем включите публикацию. Русская версия и перевод — одна статья с общими датой и адресом.'
+        fields:
+          - { name: enabled, label: Опубликовать английскую версию, type: boolean, default: false }
+          - { name: title, label: English title, type: string }
+          - { name: description, label: English summary, type: text }
+          - { name: category, label: English category, type: string, default: Team }
+          - name: body
+            label: English article (Markdown)
+            type: rich-text
+            options:
+              format: markdown
+              switcher: true
   - name: projects
     label: Проекты
     type: collection

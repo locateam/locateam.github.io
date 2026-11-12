@@ -1,7 +1,8 @@
 import React,{useEffect,useRef} from 'react';
 import {bendAt} from '../text-bend.js';
-const quote='Создаём проекты. Делимся результатами. / ';
-export function HeroQuote(){
+import {messages} from '../i18n.js';
+export function HeroQuote({language='ru'}){
+  const text=messages[language].quote,quote=text+' / ';
   const canvas=useRef(null);
   const pointer=useRef(null);
   useEffect(()=>{
@@ -36,10 +37,10 @@ export function HeroQuote(){
     const observer=new ResizeObserver(resize);observer.observe(element);
     document.fonts.load('700 88px "Balsamiq Sans"').then(()=>{if(!disposed){resize();element.parentElement.classList.add('quote-ready');frame=requestAnimationFrame(draw)}});
     return()=>{disposed=true;cancelAnimationFrame(frame);observer.disconnect()};
-  },[]);
+  },[language]);
   return <div className="quote-window" onPointerMove={e=>{if(e.pointerType==='touch')return;const r=e.currentTarget.getBoundingClientRect();pointer.current={x:e.clientX-r.left,y:e.clientY-r.top}}} onPointerLeave={()=>{pointer.current=null}}>
-    <h1 className="sr-only">Создаём проекты. Делимся результатами.</h1>
-    <div className="quote-fallback" aria-hidden="true">Создаём проекты.<br/>Делимся результатами.</div>
+    <h1 className="sr-only">{text}</h1>
+    <div className="quote-fallback" aria-hidden="true">{text}</div>
     <canvas ref={canvas} className="quote-canvas" aria-hidden="true"/>
   </div>;
 }

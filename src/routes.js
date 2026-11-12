@@ -2,7 +2,7 @@ export const siteOrigin='https://locateam.github.io';
 export const blogUrl=page=>page>1?`/blog/page/${page}/`:'/blog/';
 export const postUrl=slug=>`/blog/${encodeURIComponent(slug)}/`;
 export function routeParams(pathname){
-  const parts=pathname.split('/').filter(Boolean);
+  const parts=pathname.replace(/^\/en(?=\/|$)/,'').split('/').filter(Boolean);
   const params=new URLSearchParams();
   if(parts[0]==='blog'){
     params.set('blog','');

@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {messages,languageFor,localPath,withoutLanguage} from './i18n.js';
+import {routeParams} from './routes.js';
+assert.deepEqual(Object.keys(messages.ru).sort(),Object.keys(messages.en).sort());
+assert.equal(languageFor('/en/blog/'),'en');assert.equal(languageFor('/blog/'),'ru');assert.equal(languageFor('/english/'),'ru');
+assert.equal(localPath('/blog/page/2/','en'),'/en/blog/page/2/');
+assert.equal(withoutLanguage('/en/blog/post/'),'/blog/post/');
+assert.equal(routeParams('/en/blog/post/').get('post'),'post');
+assert.equal(routeParams('/en/blog/page/2/').get('page'),'2');
+console.log('Language and localized route checks passed');

@@ -6,21 +6,22 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build && node scripts/prerender.mjs",
     "preview": "vite preview",
-    "test": "node src/paginate.test.js && node src/text-bend.test.js && node src/routes.test.js"
+    "test": "node src/paginate.test.js && node src/text-bend.test.js && node src/routes.test.js && node src/markdown.test.js && node scripts/content-files.test.mjs && node src/i18n.test.js && node src/articles.test.js"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
     "@phosphor-icons/react": "^2.1.7",
     "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "tailwind-merge": "^3.0.0",
     "lenis": "^1.3.0",
-    "marked": "^15.0.0"
+    "marked": "^15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sanitize-html": "^2.18.2",
+    "tailwind-merge": "^3.0.0"
   },
   "devDependencies": {
-    "vite": "^6.0.0",
-    "@vitejs/plugin-react": "^4.3.0"
+    "@vitejs/plugin-react": "^4.3.0",
+    "vite": "^6.0.0"
   }
 }
